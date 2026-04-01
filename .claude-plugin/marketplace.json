@@ -1,0 +1,18 @@
+{
+  "name": "teradata-skills",
+  "owner": {
+    "name": "Remi Turpaud"
+  },
+  "plugins": [
+    {
+      "name": "teradata-query",
+      "description": "tq CLI — run Teradata queries, manage connections, explore schemas",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/remi-td/tq.git",
+        "path": "skills/teradata-query"
+      },
+      "category": "development"
+    }
+  ]
+}
