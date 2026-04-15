@@ -13,6 +13,16 @@
         "path": "skills/teradata-query"
       },
       "category": "development"
+    },
+    {
+      "name": "teradata-sql-analytics",
+      "description": "Teradata native function guidelines and syntax.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/remi-td/teradata-sql-analytics.git",
+        "path": "skills/teradata-sql-analytics"
+      },
+      "category": "development"
     }
   ]
 }
