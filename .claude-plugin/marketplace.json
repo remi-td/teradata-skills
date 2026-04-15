@@ -20,7 +20,7 @@
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/remi-td/teradata-sql-analytics.git",
-        "path": "skills/teradata-sql-analytics"
+        "path": "."
       },
       "category": "development"
     }
