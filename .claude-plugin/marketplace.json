@@ -10,7 +10,7 @@
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/remi-td/tq.git",
-        "path": "skills/teradata-query"
+        "path": "agentic"
       },
       "category": "development"
     },
@@ -20,9 +20,8 @@
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/remi-td/teradata-sql-analytics.git",
-        "path": "skills/"
+        "path": "."
       },
-      "skills": ["./"],
       "category": "development"
     }
   ]
