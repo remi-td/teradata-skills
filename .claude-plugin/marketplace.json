@@ -22,6 +22,15 @@
         "repo": "remi-td/teradata-sql-analytics"
       },
       "category": "development"
+    },
+    {
+      "name": "teradata-visual-explain",
+      "description": "A skill to help decode and visualise the Teradata EXPLAIN output.",
+      "source": {
+        "source": "github",
+        "repo": "remi-td/teradata-visual-explain"
+      },
+      "category": "development"
     }
   ]
 }
