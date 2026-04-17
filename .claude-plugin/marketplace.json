@@ -28,7 +28,7 @@
       "description": "A skill to help decode and visualise the Teradata EXPLAIN output.",
       "source": {
         "source": "github",
-        "repo": "remi-td/teradata-visual-explain"
+        "repo": "Pibbers/teradata-visual-explain-skill"
       },
       "category": "development"
     }
