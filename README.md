@@ -22,7 +22,9 @@ After installing, restart Claude Code to activate the skills.
 
 | Skill | Description | Source |
 |-------|-------------|--------|
-| `/teradata-query` | Install, configure, and use the [tq CLI](https://github.com/remi-td/tq) to run Teradata queries, explore schemas, monitor sessions, and manage database objects from the command line. | [remi-td/tq](https://github.com/remi-td/tq/tree/master/skills/teradata-query) |
+| `/teradata-query` | Install, configure, and use the [tq CLI](https://github.com/remi-td/tq) to run Teradata queries, explore schemas, monitor sessions, and manage database objects from the command line. | [remi-td/tq](https://github.com/remi-td/tq/tree/master/agentic) |
+| `/teradata-sql-analytics` | Teradata native function guidelines and syntax — load at the start of any Teradata analytics session. | [remi-td/teradata-sql-analytics](https://github.com/remi-td/teradata-sql-analytics) |
+| `/teradata-visual-explain` | Decode and visualise Teradata EXPLAIN output. | [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) |
 
 ## How it works
 
