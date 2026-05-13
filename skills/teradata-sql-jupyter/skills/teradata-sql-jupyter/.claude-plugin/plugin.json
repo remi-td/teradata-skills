@@ -1,5 +1,0 @@
-{
-  "name": "teradata-sql-jupyter",
-  "description": "Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides. Also assists with installing and running the Teradata Jupyter SQL extensions.",
-  "version": "1.0.0"
-}

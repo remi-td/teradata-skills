@@ -1,5 +1,0 @@
-{
-  "name": "teradata-react",
-  "description": "Scaffold, develop, and deploy a production-shaped React + FastAPI web application backed by Teradata Vantage. Covers project layout, connection pooling, query patterns, theming/branding, security, and Docker / static / local deployment.",
-  "version": "1.0.0"
-}
