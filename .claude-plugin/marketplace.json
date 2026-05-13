@@ -31,6 +31,15 @@
         "repo": "Pibbers/teradata-visual-explain-skill"
       },
       "category": "development"
+    },
+    {
+      "name": "teradata-skills",
+      "description": "React + FastAPI web apps and Jupyter SQL notebooks for Teradata Vantage.",
+      "source": {
+        "source": "github",
+        "repo": "remi-td/teradata-skills"
+      },
+      "category": "development"
     }
   ]
 }
