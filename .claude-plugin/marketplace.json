@@ -31,6 +31,26 @@
         "repo": "Pibbers/teradata-visual-explain-skill"
       },
       "category": "development"
+    },
+    {
+      "name": "teradata-react",
+      "description": "Scaffold, develop, and deploy a production-shaped React + FastAPI web application backed by Teradata Vantage.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/remi-td/teradata-skills.git",
+        "path": "skills/teradata-react/teradata-react"
+      },
+      "category": "development"
+    },
+    {
+      "name": "teradata-sql-jupyter",
+      "description": "Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/remi-td/teradata-skills.git",
+        "path": "skills/teradata-sql-jupyter/skills/teradata-sql-jupyter"
+      },
+      "category": "development"
     }
   ]
 }
