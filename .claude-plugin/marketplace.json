@@ -51,6 +51,16 @@
         "path": "skills/teradata-sql-jupyter"
       },
       "category": "development"
+    },
+    {
+      "name": "teradata-mcp-customisation",
+      "description": "Build, edit, and debug a semantic layer for the Teradata MCP server — custom tools, cubes, prompts, and glossary entries in YAML, plus the profiles.yml that exposes them.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/remi-td/teradata-skills.git",
+        "path": "skills/teradata-mcp-customisation"
+      },
+      "category": "development"
     }
   ]
 }
