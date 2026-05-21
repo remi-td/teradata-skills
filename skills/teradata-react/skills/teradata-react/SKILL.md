@@ -63,12 +63,17 @@ directory:
 templates/backend/   → <project>/backend/
 templates/frontend/  → <project>/frontend/
 templates/deploy/    → <project>/deploy/
+templates/start.sh   → <project>/start.sh   (chmod +x)
 ```
 
 Then customize:
 
 - `backend/app/settings.py` — confirm env-var names.
-- `backend/.env.example` — fill `TD_HOST`, leave secrets blank.
+- `backend/.env.example` — copy to `.env`, fill credentials. Check for a
+  `DATABASE_URI` env var first (see backend best practices); otherwise use
+  `CHANGE_ME` placeholders and ask the user — never guess passwords.
+- `start.sh` — adjust `BACKEND_PORT` / `FRONTEND_PORT` if the project uses
+  non-default ports (e.g., multiple apps on the same machine).
 - `frontend/src/theme/brand.css` — apply branding per
   [references/styling.md](references/styling.md).
 - `README.md` — write a project-specific one (use

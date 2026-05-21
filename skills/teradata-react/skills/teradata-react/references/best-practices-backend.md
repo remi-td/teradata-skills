@@ -3,6 +3,93 @@
 Read this before writing or reviewing backend code. Snippets are
 copy-pasteable into a project scaffolded from `templates/backend/`.
 
+## Launching uvicorn from a shell script
+
+Use a subshell `cd` — never `--app-dir`. The `--app-dir` flag adds the
+directory to Python's `sys.path` so `import app` resolves, but it does **not**
+change the working directory. pydantic-settings resolves `env_file=".env"`
+relative to CWD, which stays at the caller's location (usually the repo root)
+when launched from a top-level script. The `.env` is silently skipped and all
+required fields raise `ValidationError` at startup.
+
+```bash
+# WRONG — CWD stays at repo root; .env is not found
+"$BACKEND/.venv/bin/uvicorn" app.main:app --port 8000 --app-dir "$BACKEND" &
+
+# CORRECT — CWD is $BACKEND; .env is found; sys.path is handled automatically
+(cd "$BACKEND" && ".venv/bin/uvicorn" app.main:app --port 8000) &
+BACKEND_PID=$!
+```
+
+The canonical single-command dev launcher pattern (copy to `start.sh` at
+project root — see `templates/start.sh`):
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+REPO="$(cd "$(dirname "$0")" && pwd)"
+BACKEND="$REPO/backend"
+FRONTEND="$REPO/frontend"
+
+cleanup() { kill "$BACKEND_PID" "$FRONTEND_PID" 2>/dev/null || true; }
+trap cleanup EXIT INT TERM
+
+[ -d "$BACKEND/.venv" ] || python3 -m venv "$BACKEND/.venv"
+"$BACKEND/.venv/bin/pip" install -q -r "$BACKEND/requirements.txt"
+(cd "$BACKEND" && ".venv/bin/uvicorn" app.main:app --port 8000 --reload) &
+BACKEND_PID=$!
+
+[ -d "$FRONTEND/node_modules" ] || npm --prefix "$FRONTEND" install --silent
+npm --prefix "$FRONTEND" run dev &
+FRONTEND_PID=$!
+
+sleep 3 && open http://localhost:5173 &
+wait
+```
+
+## Credentials and .env bootstrapping
+
+Before writing any `.env`, check whether a `DATABASE_URI` environment
+variable exists in the user's shell. This URI scheme is used by the
+Teradata MCP server and Jupyter demos and is becoming a common convention:
+
+```
+teradata://<USERNAME>:<PASSWORD>@<HOST>:1025/<SCHEMA>
+```
+
+If present, **offer** to derive the individual fields from it — never
+apply it silently, because the URI may target a different environment:
+
+> *"I see `DATABASE_URI` pointing to `<HOST>`. Use this connection?"*
+
+Parse carefully — the URI port (1025) is embedded in
+`get_connection_url()`, not stored as a separate setting; the path
+component maps to `TD_DEFAULT_DATABASE`:
+
+```python
+from urllib.parse import urlparse
+u = urlparse(os.environ["DATABASE_URI"])
+# u.scheme == "teradata", u.port == 1025
+TD_USER             = u.username
+TD_PASSWORD         = u.password          # never log
+TD_HOST             = u.hostname
+TD_DEFAULT_DATABASE = u.path.lstrip("/")  # e.g. "data_engineer" or "MYSCHEMA"
+```
+
+If `DATABASE_URI` is absent, emit explicit placeholders and ask:
+
+```ini
+# backend/.env  — fill before running
+TD_HOST=CHANGE_ME
+TD_USER=CHANGE_ME
+TD_PASSWORD=CHANGE_ME
+TD_DEFAULT_DATABASE=CHANGE_ME
+```
+
+**Never guess** that the password matches the username or the project
+name. Always ask. `TD_DEFAULT_DATABASE` is frequently different from
+`TD_USER` (e.g., a shared schema name), so confirm it separately.
+
 ## Connection pooling
 
 Create the engine **once** and reuse it. Use `settings.get_connection_url()` —
