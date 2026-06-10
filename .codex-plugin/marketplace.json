@@ -28,8 +28,10 @@
       "name": "teradata-visual-explain",
       "description": "A skill to help decode and visualise the Teradata EXPLAIN output.",
       "source": {
-        "source": "url",
-        "url": "Pibbers/teradata-visual-explain-skill"
+        "source": "git-subdir",
+        "url": "https://github.com/Pibbers/teradata-visual-explain-skill.git",
+        "path": "skills/teradata-visual-explain",
+        "ref": "main"
       },
       "category": "development"
     },
