@@ -40,6 +40,7 @@ my-app/
 │   ├── docker-compose.yml
 │   ├── nginx.conf
 │   └── github-pages.yml           GH Actions for static deploy
+├── start.sh                       single-command dev launcher (backend + frontend)
 └── README.md
 ```
 
@@ -117,3 +118,5 @@ A feature is shippable when:
 - ❌ Inline Recharts without `ChartCard`.
 - ❌ MUI/Chakra/Ant added alongside Tailwind.
 - ❌ Engine created per-request.
+- ❌ `uvicorn --app-dir` in launch scripts (changes `sys.path` but not CWD; `.env` won't load — use `(cd "$BACKEND" && uvicorn ...)` instead).
+- ❌ Guessing credentials (password = username, password = project name). Check `DATABASE_URI` env var first; otherwise use `CHANGE_ME` placeholders and ask.
