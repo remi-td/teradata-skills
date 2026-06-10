@@ -22,17 +22,20 @@ Restart Claude Code to activate.
 
 ### Codex
 
-**GUI:** Settings → Plugins → Add More → enter `remi-td/teradata-skills` in the Source field → select the skills you want to install.
+**Update Config (eg. `~/.codex/config.toml`):**
 
-**Config (`~/.codex/config.toml`):**
+Add:
 
 ```toml
 [marketplaces.teradata-skills]
 source_type = "git"
 source = "https://github.com/remi-td/teradata-skills.git"
 ```
-
 Restart Codex after editing the config.
+
+**From VS Code GUI:** Settings → Plugins → Add More → enter `remi-td/teradata-skills` in the Source field → select the skills you want to install.
+
+
 
 ## Available Skills
 
