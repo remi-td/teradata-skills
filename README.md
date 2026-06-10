@@ -1,6 +1,6 @@
 # Teradata Skills
 
-A multi-framework skill marketplace aggregating Teradata-related skills maintained across multiple repositories. Install once, get all skills — in Claude Code or Codex.
+A multi-framework skill marketplace aggregating Teradata-related skills maintained across multiple repositories. Install once, get all skills — in Claude Code, Codex, or GitHub Copilot.
 
 ## Installation
 
@@ -35,7 +35,24 @@ Restart Codex after editing the config.
 
 **From VS Code GUI:** Settings → Plugins → Add More → enter `remi-td/teradata-skills` in the Source field → select the skills you want to install.
 
+### GitHub Copilot — VS Code GUI
 
+1. Open VS Code and press `Ctrl+Shift+P` (macOS: `Cmd+Shift+P`) to open the Command Palette.
+2. Run **"GitHub Copilot: Manage Extensions"** (or open the **Extensions** view and search for *Copilot Extensions*).
+3. Click **Add extension source** and enter this repository URL:
+   ```
+   https://github.com/remi-td/teradata-skills
+   ```
+4. VS Code will discover the `.codex-plugin/marketplace.json` manifest and list the available skills.
+5. Toggle on the skills you want and reload the Copilot agent.
+
+> **Caveat — skills loaded from this repo only.**
+> The VS Code GUI reads the `.codex-plugin/` manifest in *this* repository. It will only load the skills **directly maintained here**:
+> - `/teradata-react`
+> - `/teradata-sql-jupyter`
+> - `/teradata-mcp-customisation`
+>
+> The other skills in the table below (`/teradata-query`, `/teradata-sql-analytics`, `/teradata-visual-explain`) live in separate source repositories. To load those, navigate to the **Available Skills** table, follow each **Source** link, and add that repository as an additional extension source using the same steps above.
 
 ## Available Skills
 
