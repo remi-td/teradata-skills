@@ -1,0 +1,6 @@
+{
+  "name": "teradata-sql-jupyter",
+  "version": "1.0.0",
+  "description": "Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides.",
+  "skills": "./skills/"
+}
