@@ -45,9 +45,6 @@ https://github.com/remi-td/teradata-skills
 
 Cursor will discover the `.cursor-plugin/marketplace.json` manifest and list the available skills. Toggle on the skills you want and reload the agent.
 
-> **Note — skills available in Cursor.**
-> Only skills with a standalone plugin root are supported. Skills that live in a subdirectory of an external repo (`teradata-query`, `teradata-visual-explain`) cannot be referenced by Cursor's marketplace format and must be installed from their source repos directly once those repos gain a `plugin.json`.
-
 ### GitHub Copilot — VS Code GUI
 
 1. Open VS Code and press `Ctrl+Shift+P` (macOS: `Cmd+Shift+P`) to open the Command Palette.
