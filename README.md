@@ -1,6 +1,6 @@
 # Teradata Skills
 
-A multi-framework skill marketplace aggregating Teradata-related skills maintained across multiple repositories. Install once, get all skills — in Claude Code, Codex, or GitHub Copilot.
+A multi-framework skill marketplace aggregating Teradata-related skills maintained across multiple repositories. Install once, get all skills — in Claude Code, Codex, GitHub Copilot, or Cursor.
 
 ## Installation
 
@@ -35,6 +35,19 @@ Restart Codex after editing the config.
 
 **From VS Code GUI:** Settings → Plugins → Add More → enter `remi-td/teradata-skills` in the Source field → select the skills you want to install.
 
+### Cursor
+
+Add the marketplace in Cursor settings (**Settings → Plugins → Add marketplace**) and enter:
+
+```
+https://github.com/remi-td/teradata-skills
+```
+
+Cursor will discover the `.cursor-plugin/marketplace.json` manifest and list the available skills. Toggle on the skills you want and reload the agent.
+
+> **Note — skills available in Cursor.**
+> Only skills with a standalone plugin root are supported. Skills that live in a subdirectory of an external repo (`teradata-query`, `teradata-visual-explain`) cannot be referenced by Cursor's marketplace format and must be installed from their source repos directly once those repos gain a `plugin.json`.
+
 ### GitHub Copilot — VS Code GUI
 
 1. Open VS Code and press `Ctrl+Shift+P` (macOS: `Cmd+Shift+P`) to open the Command Palette.
@@ -56,14 +69,16 @@ Restart Codex after editing the config.
 
 ## Available Skills
 
-| Skill | Description | Source |
-|-------|-------------|--------|
-| `teradata-query` | Install, configure, and use the [tq CLI](https://github.com/remi-td/tq) to run Teradata queries, explore schemas, monitor sessions, and manage database objects from the command line. | [remi-td/tq](https://github.com/remi-td/tq/tree/master/agentic) |
-| `teradata-sql-analytics` | Teradata native function guidelines and syntax — load at the start of any Teradata analytics session. | [remi-td/teradata-sql-analytics](https://github.com/remi-td/teradata-sql-analytics) |
-| `teradata-visual-explain` | Decode and visualise Teradata EXPLAIN output. | [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) |
-| `teradata-react` | Scaffold, develop, and deploy a production-shaped React + FastAPI web application backed by Teradata Vantage. Covers project layout, connection pooling, query patterns, theming/branding, security, and deployment. | [skills/teradata-react](skills/teradata-react) *(this repo)* |
-| `teradata-sql-jupyter` | Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides. Also assists with installing and running the Teradata Jupyter SQL extensions. | [skills/teradata-sql-jupyter](skills/teradata-sql-jupyter) *(this repo)* |
-| `teradata-mcp-customisation` | Build, edit, and debug a semantic layer for the Teradata MCP server — custom tools, cubes, prompts, and glossary entries declared in YAML, plus the `profiles.yml` that exposes them. | [skills/teradata-mcp-customisation](skills/teradata-mcp-customisation) *(this repo)* |
+| Skill | Description | Source | Claude Code | Codex | GitHub Copilot | Cursor |
+|-------|-------------|--------|:-----------:|:-----:|:--------------:|:------:|
+| `teradata-query` | Install, configure, and use the [tq CLI](https://github.com/remi-td/tq) to run Teradata queries, explore schemas, monitor sessions, and manage database objects from the command line. | [remi-td/tq](https://github.com/remi-td/tq/tree/master/agentic) | ✅ | ✅ | ✅ | ✅ |
+| `teradata-sql-analytics` | Teradata native function guidelines and syntax — load at the start of any Teradata analytics session. | [remi-td/teradata-sql-analytics](https://github.com/remi-td/teradata-sql-analytics) | ✅ | ✅ | ✅ | ✅ |
+| `teradata-visual-explain` | Decode and visualise Teradata EXPLAIN output. | [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) | ✅ | ✅ | ✅ | ⚠️ |
+| `teradata-react` | Scaffold, develop, and deploy a production-shaped React + FastAPI web application backed by Teradata Vantage. Covers project layout, connection pooling, query patterns, theming/branding, security, and deployment. | [skills/teradata-react](skills/teradata-react) *(this repo)* | ✅ | ✅ | ✅ | ✅ |
+| `teradata-sql-jupyter` | Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides. Also assists with installing and running the Teradata Jupyter SQL extensions. | [skills/teradata-sql-jupyter](skills/teradata-sql-jupyter) *(this repo)* | ✅ | ✅ | ✅ | ✅ |
+| `teradata-mcp-customisation` | Build, edit, and debug a semantic layer for the Teradata MCP server — custom tools, cubes, prompts, and glossary entries declared in YAML, plus the `profiles.yml` that exposes them. | [Teradata/teradata-mcp-server](https://github.com/Teradata/teradata-mcp-server/tree/main/agentic) | ✅ | ✅ | ✅ | ✅ |
+
+> ⚠️ = skill lives in a subdirectory of an external repo with no root-level `plugin.json` — Cursor cannot reference it from this marketplace. Install by adding [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) as a separate Cursor marketplace source.
 
 ## How it works
 
