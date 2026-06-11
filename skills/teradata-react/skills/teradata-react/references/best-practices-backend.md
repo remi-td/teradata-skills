@@ -30,20 +30,33 @@ set -euo pipefail
 REPO="$(cd "$(dirname "$0")" && pwd)"
 BACKEND="$REPO/backend"
 FRONTEND="$REPO/frontend"
+BACKEND_PORT="${BACKEND_PORT:-8000}"
+FRONTEND_PORT="${FRONTEND_PORT:-5173}"
+
+# Fail fast if ports are already occupied — prevents silent drift
+check_port() {
+  if lsof -ti :"$1" >/dev/null 2>&1; then
+    echo "ERROR: port $1 in use. Set BACKEND_PORT/FRONTEND_PORT and retry." >&2; exit 1
+  fi
+}
+check_port "$BACKEND_PORT"
+check_port "$FRONTEND_PORT"
 
 cleanup() { kill "$BACKEND_PID" "$FRONTEND_PID" 2>/dev/null || true; }
 trap cleanup EXIT INT TERM
 
 [ -d "$BACKEND/.venv" ] || python3 -m venv "$BACKEND/.venv"
 "$BACKEND/.venv/bin/pip" install -q -r "$BACKEND/requirements.txt"
-(cd "$BACKEND" && ".venv/bin/uvicorn" app.main:app --port 8000 --reload) &
+(cd "$BACKEND" && ".venv/bin/uvicorn" app.main:app --port "$BACKEND_PORT" --reload) &
 BACKEND_PID=$!
+echo "Backend starting → http://localhost:$BACKEND_PORT/docs"
 
 [ -d "$FRONTEND/node_modules" ] || npm --prefix "$FRONTEND" install --silent
-npm --prefix "$FRONTEND" run dev &
+VITE_BACKEND_PORT="$BACKEND_PORT" VITE_FRONTEND_PORT="$FRONTEND_PORT" \
+  npm --prefix "$FRONTEND" run dev &
 FRONTEND_PID=$!
+echo "Frontend starting → http://localhost:$FRONTEND_PORT"
 
-sleep 3 && open http://localhost:5173 &
 wait
 ```
 
@@ -332,6 +345,63 @@ SELECT  TRIM(databasename) AS databasename,
         SpoolSpace         AS spoolspace,
         TempSpace          AS tempspace
 FROM    dbc.DatabasesV
+```
+
+## Teradata SQL gotchas in application queries
+
+These trip up most dashboards. Handle them up front in query design.
+
+**1. Alias ambiguity**
+
+Ambiguous aliases (e.g., the
+same name appears in multiple joined or aggregated scopes) do not pose problem in query development but often do in dashboards dynamic aggregation. This is
+particularly common in dynamic `ORDER BY` or `GROUP BY`clauses.
+
+```sql
+-- Fragile — alias "score" may clash in a complex aggregation:
+SELECT supplier_id, SUM(risk_weight) AS risk_weight
+FROM facts
+GROUP BY supplier_id
+ORDER BY risk_weight DESC;   -- may raise "ambiguous" error in some contexts
+
+-- Safe — use the expression directly, or wrap in a CTE:
+WITH base AS (
+    SELECT supplier_id, SUM(risk_weight) AS risk_weight
+    FROM facts
+    GROUP BY supplier_id
+)
+SELECT supplier_id, risk_weight FROM base ORDER BY risk_weight DESC;
+
+-- Safe — explicit metric calculation name:
+SELECT supplier_id, SUM(risk_weight) AS risk_weight_sum, AVG(risk_weight) AS risk_weight_avg
+FROM facts
+GROUP BY supplier_id
+ORDER BY risk_weight_sum DESC   -- may raise "ambiguous" error in some contexts
+
+```
+
+**2. Prefer aggregate CTEs over complex grouped final joins**
+
+When a query joins aggregated results to lookup tables, isolate the
+aggregation in a CTE first rather than aggregating inside a join. This
+avoids the common alias errors or source confusion when multiple tables have overlapping column names:
+
+```sql
+-- Problematic pattern:
+SELECT s.name, SUM(f.amount) AS total
+FROM suppliers s JOIN facts f ON s.id = f.supplier_id
+GROUP BY s.name
+ORDER BY total DESC
+
+-- Safer pattern:
+WITH supplier_totals AS (
+    SELECT supplier_id, SUM(amount) AS total
+    FROM facts
+    GROUP BY supplier_id
+)
+SELECT s.name, t.total
+FROM suppliers s JOIN supplier_totals t ON s.id = t.supplier_id
+ORDER BY t.total DESC
 ```
 
 ## Testing

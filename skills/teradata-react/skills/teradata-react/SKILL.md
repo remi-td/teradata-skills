@@ -23,6 +23,32 @@ following the patterns in this skill.
 If the user just wants a single static page with mocked data, this is
 overkill — write plain HTML/JS instead.
 
+## Agent Quickstart Checklist
+
+Run through this before writing any code:
+
+1. **Inspect workspace** — does a project directory already exist? What files are already there?
+2. **Choose scaffold mode** — see [Scaffold Mode](#scaffold-mode) below.
+3. **Resolve DB connection** — in order of preference:
+   - Check for a `DATABASE_URI` env var in the shell (`echo $DATABASE_URI`)
+   - If using `tq`, run `tq profiles` and prefer an existing working profile
+   - Only ask the user for credentials if neither of the above exist
+4. **Copy scaffold & populate `.env`** — never start writing feature code without a working connection confirmed.
+5. **Run typecheck immediately** after scaffolding: `cd frontend && npx tsc --noEmit`
+6. **Verify ports are free** before starting: `lsof -ti :8000 -ti :5173` must return empty (or override with `BACKEND_PORT`/`FRONTEND_PORT`)
+7. **Confirm backend health** before testing other endpoints: `curl http://localhost:$BACKEND_PORT/api/health`
+
+## Scaffold Mode
+
+Choose **before** copying any files:
+
+| Request type | Use |
+|---|---|
+| "dashboard", "analytics", "interactive", "visually compelling" | **Dashboard** — copy `demo/` structure (has `ChartCard`, `Kpi`, `Sidebar`, multi-page layout) |
+| "app", "viewer", "CRUD", simple/unspecified | **Minimal** — copy `templates/` (bare working skeleton) |
+
+For a dashboard scaffold: copy `demo/frontend/src/components/` and `demo/frontend/src/pages/` as your starting point, then replace the `dbc.*` queries with your domain data.
+
 ## Step 1 — Load references
 
 Before writing any code, read:
