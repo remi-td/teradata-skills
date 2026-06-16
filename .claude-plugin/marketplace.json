@@ -19,7 +19,7 @@
       "description": "Teradata native function guidelines and syntax.",
       "source": {
         "source": "github",
-        "repo": "remi-td/teradata-sql-analytics"
+        "repo": "ksturgeon-td/tdsql-mcp"
       },
       "category": "development"
     },
