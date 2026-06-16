@@ -33,6 +33,12 @@
       "description": "Build, edit, and debug a semantic layer for the Teradata MCP server — custom tools, cubes, prompts, and glossary entries declared in YAML, plus the profiles.yml that exposes them.",
       "source": "https://github.com/Teradata/teradata-mcp-server",
       "category": "development"
+    },
+    {
+      "name": "teradata-trial-data-loading",
+      "description": "A Skill that guides an AI agent through discovering and loading demo/sample datasets into a Teradata Trial (formerly ClearScape Analytics Experience) environment.",
+      "source": "https://github.com/remi-td/teradata-trial-data-loading",
+      "category": "development"
     }
   ]
 }

@@ -61,6 +61,15 @@
         "path": "agentic"
       },
       "category": "development"
+    },
+    {
+      "name": "teradata-trial-data-loading",
+      "description": "A Skill that guides an AI agent through discovering and loading demo/sample datasets into a Teradata Trial (formerly ClearScape Analytics Experience) environment.",
+      "source": {
+        "source": "github",
+        "repo": "remi-td/teradata-trial-data-loading"
+      },
+      "category": "development"
     }
   ]
 }
