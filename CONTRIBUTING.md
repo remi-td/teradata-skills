@@ -1,8 +1,8 @@
-# Contributing Skills
+# Contributing Skills And MCP Plugins
 
-This repository is a multi-framework marketplace index for Teradata agent skills. It supports Claude Code, Codex, Cursor, and the VS Code agent surfaces that consume these marketplace manifests.
+This repository is a multi-framework marketplace index for Teradata agent skills and Codex MCP server plugins. It supports Claude Code, Codex, Cursor, and the VS Code agent surfaces that consume these marketplace manifests.
 
-The main rule is simple: keep skill code in its source repository. Only skills maintained by this repository should live under `skills/`. External skills must be referenced by marketplace metadata, not copied here.
+The main rule is simple: keep skill and server code in its source repository. Only skills maintained by this repository should live under `skills/`. External skills and MCP servers must be referenced by marketplace metadata, not copied here.
 
 ## Files To Update
 
@@ -14,6 +14,8 @@ When adding or changing a skill, update the files for every framework that shoul
 | Codex | `.agents/plugins/marketplace.json` | `url` for repo roots, `git-subdir` for subdirectories, `local` for skills in this repo |
 | Cursor | `.cursor-plugin/marketplace.json` | string paths or repository URLs |
 | README | `README.md` | user-facing skill table and caveats |
+
+Codex MCP server plugins are currently defined in `.agents/plugins/marketplace.json` and documented in `README.md`. Add Claude Code, Cursor, or VS Code entries only after verifying those frameworks support the same server configuration shape.
 
 Local skills also need per-plugin manifests:
 
@@ -295,6 +297,85 @@ Cursor entry:
 
 If Cursor cannot resolve a subdirectory in the external repository, mark the README table with a caveat and document the separate install path.
 
+## Add A Codex MCP Server Plugin
+
+Use this path when a plugin exposes an MCP server, not just agent instructions. Do not copy the server code into this repository.
+
+For servers launched through a package runner such as `uvx`, the marketplace `source` is still required by Codex, but it does not need to be the server source repository. Prefer a tiny local plugin bundle with a `.codex-plugin/plugin.json` manifest. That keeps the installable plugin metadata in this marketplace and the runtime server code in the package/source repository.
+
+Create a tracked bundle such as:
+
+```text
+.agents/plugins/teradata-mcp-server/
+├── .codex-plugin/
+│   └── plugin.json
+└── README.md
+```
+
+Marketplace entry:
+
+```json
+{
+  "name": "teradata-mcp-server",
+  "description": "Connect Codex to Teradata Vantage using the Teradata MCP server.",
+  "version": "0.2.3",
+  "source": {
+    "source": "local",
+    "path": "./.agents/plugins/teradata-mcp-server"
+  },
+  "policy": {
+    "installation": "AVAILABLE",
+    "authentication": "ON_USE"
+  },
+  "interface": {
+    "displayName": "Teradata MCP Server",
+    "shortDescription": "Connect Codex to Teradata Vantage through MCP.",
+    "developerName": "Teradata",
+    "category": "Development"
+  },
+  "category": "Development"
+}
+```
+
+Plugin manifest at `.agents/plugins/teradata-mcp-server/.codex-plugin/plugin.json`:
+
+```json
+{
+  "name": "teradata-mcp-server",
+  "version": "0.2.3",
+  "description": "Connect Codex to Teradata Vantage using the Teradata MCP server.",
+  "mcpServers": {
+    "teradataMCP": {
+      "command": "uvx",
+      "args": [
+        "teradata-mcp-server"
+      ],
+      "env_vars": [
+        "DATABASE_URI"
+      ]
+    }
+  },
+  "interface": {
+    "displayName": "Teradata MCP Server",
+    "shortDescription": "Connect Codex to Teradata Vantage through MCP.",
+    "developerName": "Teradata",
+    "category": "Development"
+  },
+  "category": "Development"
+}
+```
+
+Use `env_vars` for values that must come from the user's local environment, especially credentials such as `DATABASE_URI`. Do not hard-code secrets or example credentials in the marketplace entry or plugin manifest.
+
+After installation, verify Codex sees the server:
+
+```bash
+tmp_home=$(mktemp -d)
+CODEX_HOME="$tmp_home" codex plugin marketplace add ./ >/dev/null
+CODEX_HOME="$tmp_home" codex plugin add teradata-mcp-server@teradata-skills --json >/dev/null
+CODEX_HOME="$tmp_home" codex mcp list --json
+```
+
 ## Validation
 
 Run these checks before opening a PR.
@@ -324,10 +405,16 @@ For an existing marketplace-wide check, install each plugin:
 ```bash
 tmp_home=$(mktemp -d)
 CODEX_HOME="$tmp_home" codex plugin marketplace add ./ >/dev/null
-for plugin in teradata-query teradata-sql-analytics teradata-visual-explain teradata-react teradata-sql-jupyter teradata-mcp-customisation teradata-trial-data-loading; do
+for plugin in teradata-query teradata-sql-analytics teradata-visual-explain teradata-react teradata-sql-jupyter teradata-mcp-customisation teradata-mcp-server teradata-trial-data-loading; do
   CODEX_HOME="$tmp_home" codex plugin add "$plugin@teradata-skills" --json >/dev/null
   echo "installed $plugin"
 done
+```
+
+For MCP server plugins, also confirm the server registration appears:
+
+```bash
+CODEX_HOME="$tmp_home" codex mcp list --json
 ```
 
 3. Confirm local files are tracked:
@@ -347,3 +434,4 @@ git ls-files skills/teradata-example
 - Do not put `references/`, `templates/`, `scripts/`, or `assets/` outside the skill package directory.
 - Do not forget to update `README.md`; the table is the user-facing source of truth.
 - Do not leave a marketplace entry that lists but fails to install in Codex.
+- Do not put credentials in `mcpServers`; use `env_vars` so Codex reads them from the user's environment.

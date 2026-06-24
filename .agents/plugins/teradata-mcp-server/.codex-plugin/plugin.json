@@ -1,0 +1,28 @@
+{
+  "name": "teradata-mcp-server",
+  "version": "0.2.3",
+  "description": "Connect Codex to Teradata using the Teradata MCP server.",
+  "mcpServers": {
+    "teradataMCP": {
+      "command": "uvx",
+      "args": [
+        "teradata-mcp-server"
+      ],
+      "env_vars": [
+        "DATABASE_URI"
+      ]
+    }
+  },
+  "interface": {
+    "displayName": "Teradata MCP Server",
+    "shortDescription": "Connect Codex to Teradata through MCP.",
+    "developerName": "Teradata",
+    "category": "Development",
+    "defaultPrompt": [
+      "List available Teradata MCP tools.",
+      "Inspect my Teradata database schema.",
+      "Run a safe Teradata query."
+    ]
+  },
+  "category": "Development"
+}

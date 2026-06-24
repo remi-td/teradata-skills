@@ -113,6 +113,31 @@
       "category": "Development"
     },
     {
+      "name": "teradata-mcp-server",
+      "description": "Connect Codex to Teradata using the Teradata MCP server.",
+      "version": "0.2.3",
+      "source": {
+        "source": "local",
+        "path": "./.agents/plugins/teradata-mcp-server"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "interface": {
+        "displayName": "Teradata MCP Server",
+        "shortDescription": "Connect Codex to Teradata through MCP.",
+        "developerName": "Teradata",
+        "category": "Development",
+        "defaultPrompt": [
+          "List available Teradata MCP tools.",
+          "Inspect my Teradata database schema.",
+          "Run a safe Teradata query."
+        ]
+      },
+      "category": "Development"
+    },
+    {
       "name": "teradata-trial-data-loading",
       "description": "Discover and load demo or sample datasets into a Teradata Trial environment.",
       "version": "1.0.0",

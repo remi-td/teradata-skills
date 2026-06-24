@@ -72,7 +72,7 @@ Cursor will discover the `.cursor-plugin/marketplace.json` manifest and list the
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow to add or update skills across Claude Code, Codex, Cursor, and VS Code agent surfaces.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow to add or update skills and MCP server plugins across Claude Code, Codex, Cursor, and VS Code agent surfaces.
 
 ## Available Skills
 
@@ -88,12 +88,31 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow to add or update sk
 
 > ⚠️ for Cursor = skill lives in a subdirectory of an external repo with no root-level `plugin.json`; install by adding [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) as a separate Cursor marketplace source.
 
+## Available MCP Server Plugins
+
+| Plugin | Description | Source | Codex |
+|--------|-------------|--------|:-----:|
+| `teradata-mcp-server` | Connect Codex to Teradata Vantage through the Teradata MCP server. Requires `uvx` and a local `DATABASE_URI` environment variable. | [Teradata/teradata-mcp-server](https://github.com/Teradata/teradata-mcp-server) | ✅ |
+
+Install it from Codex after adding this marketplace:
+
+```bash
+codex plugin add teradata-mcp-server@teradata-skills
+```
+
+Then set `DATABASE_URI` in the environment where Codex runs:
+
+```bash
+export DATABASE_URI="teradata://USERNAME:PASSWORD@HOST:1025/DATABASE"
+```
+
 ## How it works
 
-Skills are maintained alongside the projects they relate to. This repo acts as a marketplace index and does not copy external skill code into the Codex marketplace.
+Skills and MCP servers are maintained alongside the projects they relate to. This repo acts as a marketplace index and does not copy external code into the Codex marketplace.
 
 - `.agents/plugins/marketplace.json` is the Codex marketplace manifest.
 - Local Codex plugins point to `skills/<name>` in this repo and include `skills/<name>/.codex-plugin/plugin.json`.
 - External Codex plugins use `url` entries for root-level source repositories or `git-subdir` entries when the source repository exposes an installable plugin root below the repo root.
+- Codex MCP server plugins can use a tiny local plugin bundle with `.codex-plugin/plugin.json`. If the server is launched with a package runner such as `uvx`, the bundle stores install metadata and links to the official source, while runtime code stays in the server package/source repository.
 
 For root-level external repositories that do not carry `.codex-plugin/plugin.json`, the marketplace entry provides enough metadata for Codex to generate the install manifest while keeping the skill files in the source repository.
