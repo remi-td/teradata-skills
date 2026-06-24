@@ -70,6 +70,10 @@ Cursor will discover the `.cursor-plugin/marketplace.json` manifest and list the
 > Codex uses `.agents/plugins/marketplace.json`.
 > External skill code is not copied into this repository. Root-level external repositories use Codex's `url` source, while external plugin subdirectories use `git-subdir`.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow to add or update skills across Claude Code, Codex, Cursor, and VS Code agent surfaces.
+
 ## Available Skills
 
 | Skill | Description | Source | Claude Code | Codex | GitHub Copilot | Cursor |
