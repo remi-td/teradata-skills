@@ -21,7 +21,6 @@
       "source": {
         "source": "github",
         "repo": "ksturgeon-td/tdsql-mcp",
-        "path": "skills/teradata-sql-analytics",
         "ref": "main"
       },
       "category": "development"
@@ -32,6 +31,7 @@
       "source": {
         "source": "github",
         "repo": "Pibbers/teradata-visual-explain-skill",
+        "ref": "main"
       },
       "category": "development"
     },
@@ -72,9 +72,8 @@
       "name": "teradata-trial-data-loading",
       "description": "A Skill that guides an AI agent through discovering and loading demo/sample datasets into a Teradata Trial (formerly ClearScape Analytics Experience) environment.",
       "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/remi-td/teradata-trial-data-loading.git",
-        "path": "skills/teradata-trial-data-loading",
+        "source": "github",
+        "repo": "ksturgeon-td/teradata-trial-data-loading",
         "ref": "main"
       },
       "category": "development"
