@@ -19,8 +19,8 @@
       "name": "teradata-sql-analytics",
       "description": "Teradata native function guidelines and syntax.",
       "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/remi-td/teradata-sql-analytics.git",
+        "source": "github",
+        "repo": "ksturgeon-td/tdsql-mcp",
         "path": "skills/teradata-sql-analytics",
         "ref": "main"
       },
@@ -30,10 +30,8 @@
       "name": "teradata-visual-explain",
       "description": "A skill to help decode and visualise the Teradata EXPLAIN output.",
       "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/Pibbers/teradata-visual-explain-skill.git",
-        "path": "skills/teradata-visual-explain",
-        "ref": "main"
+        "source": "github",
+        "repo": "Pibbers/teradata-visual-explain-skill",
       },
       "category": "development"
     },
