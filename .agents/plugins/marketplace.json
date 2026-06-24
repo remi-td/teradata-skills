@@ -1,0 +1,135 @@
+{
+  "name": "teradata-skills",
+  "owner": {
+    "name": "Remi Turpaud"
+  },
+  "plugins": [
+    {
+      "name": "teradata-query",
+      "description": "Install, configure, and use the tq CLI to run Teradata queries, explore schemas, monitor sessions, and manage database objects from the command line.",
+      "version": "1.0.0",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/remi-td/tq.git",
+        "path": "agentic",
+        "ref": "master"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata Query"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "teradata-sql-analytics",
+      "description": "Teradata native function guidelines and syntax.",
+      "version": "1.0.0",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/ksturgeon-td/tdsql-mcp.git",
+        "ref": "main"
+      },
+      "skills": "./skills/",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata SQL Analytics"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "teradata-visual-explain",
+      "description": "Decode and visualize Teradata SQL EXPLAIN output.",
+      "version": "1.0.0",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Pibbers/teradata-visual-explain-skill.git",
+        "ref": "main"
+      },
+      "skills": "./skills/",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata Visual Explain"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "teradata-react",
+      "description": "Scaffold, develop, and deploy a production-shaped React + FastAPI web application backed by Teradata Vantage.",
+      "source": {
+        "source": "local",
+        "path": "./skills/teradata-react"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata React"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "teradata-sql-jupyter",
+      "description": "Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides.",
+      "source": {
+        "source": "local",
+        "path": "./skills/teradata-sql-jupyter"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata SQL Jupyter"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "teradata-mcp-customisation",
+      "description": "Build, edit, and debug a semantic layer for the Teradata MCP server.",
+      "version": "1.0.0",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/Teradata/teradata-mcp-server.git",
+        "path": "agentic",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata MCP Customisation"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "teradata-trial-data-loading",
+      "description": "Discover and load demo or sample datasets into a Teradata Trial environment.",
+      "version": "1.0.0",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/ksturgeon-td/teradata-trial-data-loading.git",
+        "ref": "main"
+      },
+      "skills": "./skills/",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "interface": {
+        "displayName": "Teradata Trial Data Loading"
+      },
+      "category": "Development"
+    }
+  ]
+}

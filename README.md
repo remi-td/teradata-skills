@@ -22,16 +22,26 @@ Restart Claude Code to activate.
 
 ### Codex
 
-**Update Config (eg. `~/.codex/config.toml`):**
+Add this marketplace from the Codex CLI:
 
-Add:
-
-```toml
-[marketplaces.teradata-skills]
-source_type = "git"
-source = "https://github.com/remi-td/teradata-skills.git"
 ```
-Restart Codex after editing the config.
+codex plugin marketplace add remi-td/teradata-skills
+```
+
+For a local checkout while developing this repository:
+
+```
+codex plugin marketplace add ./local/path/to/teradata-skills
+```
+
+Then list and install the available plugins:
+
+```
+codex plugin list --available
+codex plugin add teradata-sql-jupyter@teradata-skills
+```
+
+Restart Codex or start a new thread after installing a plugin.
 
 **From VS Code GUI:** Settings → Plugins → Add More → enter `remi-td/teradata-skills` in the Source field → select the skills you want to install.
 
@@ -53,30 +63,33 @@ Cursor will discover the `.cursor-plugin/marketplace.json` manifest and list the
    ```
    https://github.com/remi-td/teradata-skills
    ```
-4. VS Code will discover the `.codex-plugin/marketplace.json` manifest and list the available skills.
+4. VS Code will discover the marketplace manifest and list the available skills.
 5. Toggle on the skills you want and reload the Copilot agent.
 
-> **Caveat — skills loaded from this repo only.**
-> The VS Code GUI reads the `.codex-plugin/` manifest in *this* repository. It will only load the skills **directly maintained here**:
-> - `/teradata-react`
-> - `/teradata-sql-jupyter`
-> - `/teradata-mcp-customisation`
->
-> The other skills in the table below (`/teradata-query`, `/teradata-sql-analytics`, `/teradata-visual-explain`) live in separate source repositories. To load those, navigate to the **Available Skills** table, follow each **Source** link, and add that repository as an additional extension source using the same steps above.
+> **Codex note.**
+> Codex uses `.agents/plugins/marketplace.json`.
+> External skill code is not copied into this repository. Root-level external repositories use Codex's `url` source, while external plugin subdirectories use `git-subdir`.
 
 ## Available Skills
 
 | Skill | Description | Source | Claude Code | Codex | GitHub Copilot | Cursor |
 |-------|-------------|--------|:-----------:|:-----:|:--------------:|:------:|
 | `teradata-query` | Install, configure, and use the [tq CLI](https://github.com/remi-td/tq) to run Teradata queries, explore schemas, monitor sessions, and manage database objects from the command line. | [remi-td/tq](https://github.com/remi-td/tq/tree/master/agentic) | ✅ | ✅ | ✅ | ✅ |
-| `teradata-sql-analytics` | Teradata native function guidelines and syntax — load at the start of any Teradata analytics session. | [remi-td/teradata-sql-analytics](https://github.com/remi-td/teradata-sql-analytics) | ✅ | ✅ | ✅ | ✅ |
+| `teradata-sql-analytics` | Teradata native function guidelines and syntax — load at the start of any Teradata analytics session. | [ksturgeon-td/tdsql-mcp](https://github.com/ksturgeon-td/tdsql-mcp) | ✅ | ✅ | ✅ | ✅ |
 | `teradata-visual-explain` | Decode and visualise Teradata EXPLAIN output. | [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) | ✅ | ✅ | ✅ | ⚠️ |
 | `teradata-react` | Scaffold, develop, and deploy a production-shaped React + FastAPI web application backed by Teradata Vantage. Covers project layout, connection pooling, query patterns, theming/branding, security, and deployment. | [skills/teradata-react](skills/teradata-react) *(this repo)* | ✅ | ✅ | ✅ | ✅ |
 | `teradata-sql-jupyter` | Author Teradata SQL Jupyter notebooks for exploratory data analytics, teaching, demos, and interactive SQL user guides. Also assists with installing and running the Teradata Jupyter SQL extensions. | [skills/teradata-sql-jupyter](skills/teradata-sql-jupyter) *(this repo)* | ✅ | ✅ | ✅ | ✅ |
 | `teradata-mcp-customisation` | Build, edit, and debug a semantic layer for the Teradata MCP server — custom tools, cubes, prompts, and glossary entries declared in YAML, plus the `profiles.yml` that exposes them. | [Teradata/teradata-mcp-server](https://github.com/Teradata/teradata-mcp-server/tree/main/agentic) | ✅ | ✅ | ✅ | ✅ |
+| `teradata-trial-data-loading` | Discover and load demo or sample datasets into a Teradata Trial environment. | [ksturgeon-td/teradata-trial-data-loading](https://github.com/ksturgeon-td/teradata-trial-data-loading) | ✅ | ✅ | ✅ | ✅ |
 
-> ⚠️ = skill lives in a subdirectory of an external repo with no root-level `plugin.json` — Cursor cannot reference it from this marketplace. Install by adding [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) as a separate Cursor marketplace source.
+> ⚠️ for Cursor = skill lives in a subdirectory of an external repo with no root-level `plugin.json`; install by adding [Pibbers/teradata-visual-explain-skill](https://github.com/Pibbers/teradata-visual-explain-skill) as a separate Cursor marketplace source.
 
 ## How it works
 
-Skills are maintained alongside the projects they relate to. This repo acts as a single index — it references skills in their respective repositories using the `git-subdir` source type, so you only need one marketplace entry to access all of them.
+Skills are maintained alongside the projects they relate to. This repo acts as a marketplace index and does not copy external skill code into the Codex marketplace.
+
+- `.agents/plugins/marketplace.json` is the Codex marketplace manifest.
+- Local Codex plugins point to `skills/<name>` in this repo and include `skills/<name>/.codex-plugin/plugin.json`.
+- External Codex plugins use `url` entries for root-level source repositories or `git-subdir` entries when the source repository exposes an installable plugin root below the repo root.
+
+For root-level external repositories that do not carry `.codex-plugin/plugin.json`, the marketplace entry provides enough metadata for Codex to generate the install manifest while keeping the skill files in the source repository.

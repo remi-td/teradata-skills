@@ -2,6 +2,23 @@
 
 This repo is a **Claude Code plugin marketplace** (`.claude-plugin/marketplace.json`). It indexes Teradata-related skills — some live in their own repos, two live here under `skills/`.
 
+It is also a **Codex plugin marketplace**. Codex uses `.agents/plugins/marketplace.json`.
+
+Do not copy external skill code into this repo. The only skill code managed here is for local skills under `skills/`. External Codex entries should use `url` for root-level source repositories or `git-subdir` when the upstream repository exposes an installable plugin root below the repo root.
+
+Local Codex skills need a Codex manifest at the local plugin root:
+
+```
+skills/<name>/
+├── .codex-plugin/
+│   └── plugin.json
+└── skills/
+    └── <name>/
+        └── SKILL.md
+```
+
+Codex marketplace entries for local skills should use `"source": { "source": "local", "path": "./skills/<name>" }`. For external root repositories, use `"source": { "source": "url", "url": "https://github.com/<owner>/<repo>.git", "ref": "main" }` and include manifest fields such as `"version"`, `"description"`, and `"skills": "./skills/"` so Codex can generate the install manifest.
+
 ## Adding a new local skill
 
 A local skill is a **self-contained directory** that gets exposed as its own marketplace entry via `git-subdir`. Layout:
@@ -38,6 +55,8 @@ Then add a marketplace entry to `.claude-plugin/marketplace.json`:
 ```
 
 And add a row to `README.md`'s Available Skills table.
+
+For Codex, also add `skills/<name>/.codex-plugin/plugin.json` and add an entry to `.agents/plugins/marketplace.json`.
 
 ## Why the double `<name>`
 
