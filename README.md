@@ -66,6 +66,26 @@ Cursor will discover the `.cursor-plugin/marketplace.json` manifest and list the
 4. VS Code will discover the marketplace manifest and list the available skills.
 5. Toggle on the skills you want and reload the Copilot agent.
 
+### Hermes Agent
+
+Hermes can load a local flat `SKILL.md` tree through `skills.external_dirs`. Use the bundled materializer to read this marketplace's canonical manifest, clone or update each skill source, and build a clean `skills/<skill-name>/` directory without copying external code into this repository:
+
+```bash
+git clone https://github.com/remi-td/teradata-skills
+cd teradata-skills
+scripts/install-agent-skills.sh --agent hermes
+```
+
+To refresh already-materialized sources later:
+
+```bash
+scripts/install-agent-skills.sh update --agent hermes
+```
+
+By default the installer writes to `~/.local/share/teradata-skills/hermes/skills`, clones sources under `~/.cache/teradata-skills/repos`, and adds the output directory to Hermes `skills.external_dirs`. Restart Hermes or run `/reload-skills` after install or update.
+
+For development, use `--mode symlink` to link the materialized tree back to the cloned sources, or `--only teradata-react,teradata-sql-jupyter` to materialize a subset.
+
 > **Codex note.**
 > Codex uses `.agents/plugins/marketplace.json`.
 > External skill code is not copied into this repository. Root-level external repositories use Codex's `url` source, while external plugin subdirectories use `git-subdir`.

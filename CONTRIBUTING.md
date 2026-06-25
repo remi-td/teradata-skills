@@ -299,7 +299,7 @@ If Cursor cannot resolve a subdirectory in the external repository, mark the REA
 
 Run these checks before opening a PR.
 
-1. Validate JSON:
+1. Validate JSON and Python helper syntax:
 
 ```bash
 python3 -m json.tool .agents/plugins/marketplace.json >/dev/null
@@ -308,9 +308,20 @@ python3 -m json.tool .cursor-plugin/marketplace.json >/dev/null
 find skills -path '*/.codex-plugin/plugin.json' -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null
 find skills -path '*/.claude-plugin/plugin.json' -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null
 find skills -maxdepth 2 -name plugin.json -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null
+python3 -m py_compile scripts/materialize_skills.py scripts/configure_hermes_external_dir.py
 ```
 
-2. Verify Codex marketplace listing and install in a clean temporary home:
+2. Verify Hermes materialization in temporary directories:
+
+```bash
+tmp_out=$(mktemp -d)/skills
+tmp_cache=$(mktemp -d)/cache
+scripts/install-agent-skills.sh --agent hermes --out-dir "$tmp_out" --cache-dir "$tmp_cache" --no-configure
+scripts/install-agent-skills.sh update --agent hermes --out-dir "$tmp_out" --cache-dir "$tmp_cache" --no-configure
+find "$tmp_out" -mindepth 2 -maxdepth 2 -name SKILL.md -print
+```
+
+3. Verify Codex marketplace listing and install in a clean temporary home:
 
 ```bash
 tmp_home=$(mktemp -d)
